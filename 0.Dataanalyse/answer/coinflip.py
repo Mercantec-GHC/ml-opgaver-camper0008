@@ -1,5 +1,5 @@
+from enum import Enum
 import random
-from typing import Literal
 import signal
 import sys
 
@@ -27,10 +27,15 @@ def render_flips(data: pd.DataFrame):
     plt.show()
 
 
-def coin_flip() -> Literal["heads", "tails"]:
+class Flip(Enum):
+    heads = 1
+    tails = 2
+
+
+def coin_flip() -> Flip:
     if random.randint(0, 1) == 0:
-        return "heads"
-    return "tails"
+        return Flip.tails
+    return Flip.heads
 
 
 def flip_coins(size: int) -> list[tuple[int, int]]:
@@ -38,7 +43,7 @@ def flip_coins(size: int) -> list[tuple[int, int]]:
     for idx in range(size):
         (heads, tails) = (0, 0) if idx == 0 else flips[idx - 1]
         flip = coin_flip()
-        if flip == "heads":
+        if flip == Flip.heads:
             flips.append((heads + 1, tails))
         else:
             flips.append((heads, tails + 1))
